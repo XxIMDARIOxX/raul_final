@@ -1659,34 +1659,4 @@ input, select, textarea {
 		body.is-preload #footer {
 			opacity: 0;
 		}
-        .container {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            align-items: center;
-        }
-        .card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 300px;
-            padding: 20px;
-            width: 100%;
-        }
-        .profile-image {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 15px;
-        }
-        .description {
-            color: #333;
-            line-height: 1.6;
-        }
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                gap: 20px;
-				}	}
+        
