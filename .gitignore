@@ -53,3 +53,6 @@ coverage/
 src/html/*.bak
 src/css/*.bak
 src/js/*.bak
+
+#EC2 key
+*.pem
