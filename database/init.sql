@@ -1,4 +1,5 @@
-CREATE DATABASE syb_database;
+CREATE DATABASE IF NOT EXISTS syb_database;
+
 USE syb_database;
 
 CREATE TABLE productos (
@@ -10,7 +11,7 @@ CREATE TABLE productos (
     stock INT
 );
 
-CREATE TABLE ofertas (
+CREATE TABLE IF NOT EXISTS ofertas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     producto_id INT,
     descuento DECIMAL(5,2),
@@ -19,7 +20,7 @@ CREATE TABLE ofertas (
     FOREIGN KEY (producto_id) REFERENCES productos(id)
 );
 
-CREATE TABLE clientes (
+CREATE TABLE IF NOT EXISTS clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     email VARCHAR(100),
@@ -27,7 +28,7 @@ CREATE TABLE clientes (
     direccion TEXT
 );
 
-CREATE TABLE proveedores (
+CREATE TABLE IF NOT EXISTS proveedores (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_empresa VARCHAR(255),
     contacto VARCHAR(100),
@@ -35,9 +36,13 @@ CREATE TABLE proveedores (
     telefono VARCHAR(20)
 );
 
-CREATE TABLE contactos (
+CREATE TABLE IF NOT EXISTS contactos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     mensaje TEXT NOT NULL,
 );
+
+--Insert de prueba en contactos
+INSERT INTO contactos (nombre, email, mensaje)
+VALUES ('Juan', 'juan@gmail.com', 'Hola, necesito ayuda con mi pedido.');

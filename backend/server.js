@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
+const { redirect } = require('express/lib/response');
 
 const app = express();
 const port = 3000;
@@ -49,11 +50,6 @@ app.post('/api/users', async (req, res) => {
 app.post('/api/contact', (req, res) => {
   const { nombre, email, mensaje } = req.body;
 
-  // Validar que los campos no estén vacíos
-  if (!nombre || !email || !mensaje) {
-    return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
-  }
-
   // Insertar los datos en la base de datos
   pool.query(
     'INSERT INTO contactos (nombre, email, mensaje) VALUES (?, ?, ?)',
@@ -71,6 +67,7 @@ app.post('/api/contact', (req, res) => {
       });
     }
   );
+  res.redirect("/");
 });
 
 app.listen(port, () => {
