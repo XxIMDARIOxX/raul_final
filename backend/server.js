@@ -48,12 +48,12 @@ app.post('/api/users', async (req, res) => {
 
 // Ruta para crear un contacto
 app.post('/api/contact', (req, res) => {
-  const { nombre, email, mensaje } = req.body;
+  const { name, email, message } = req.body;
 
   // Insertar los datos en la base de datos
   pool.query(
     'INSERT INTO contactos (nombre, email, mensaje) VALUES (?, ?, ?)',
-    [nombre, email, mensaje],
+    [name, email, message],
     (error, results) => {
       if (error) {
         console.error('Error al insertar en la base de datos:', error);
