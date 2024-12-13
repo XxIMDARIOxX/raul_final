@@ -40,5 +40,4 @@ CREATE TABLE contactos (
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     mensaje TEXT NOT NULL,
-    fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -1,22 +1,21 @@
 const express = require('express');
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 
 // Configuración de conexión a base de datos
 const pool = mysql.createPool({
   host: 'database',
   user: 'root',
   password: 'mipassword',
-  database: 'miapp',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+  database: 'syb_database',
 });
-
-app.use(bodyParser.json());
 
 // Ruta para obtener usuarios
 app.get('/api/users', async (req, res) => {
@@ -44,6 +43,34 @@ app.post('/api/users', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+// Ruta para crear un contacto
+app.post('/api/contact', (req, res) => {
+  const { nombre, email, mensaje } = req.body;
+
+  // Validar que los campos no estén vacíos
+  if (!nombre || !email || !mensaje) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+  }
+
+  // Insertar los datos en la base de datos
+  pool.query(
+    'INSERT INTO contactos (nombre, email, mensaje) VALUES (?, ?, ?)',
+    [nombre, email, mensaje],
+    (error, results) => {
+      if (error) {
+        console.error('Error al insertar en la base de datos:', error);
+        return res.status(500).json({ error: 'Error al guardar los datos.' });
+      }
+      res.status(201).json({
+        id: results.insertId,
+        nombre,
+        email,
+        mensaje,
+      });
+    }
+  );
 });
 
 app.listen(port, () => {

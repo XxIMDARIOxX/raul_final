@@ -14,5 +14,7 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
-  }
+  },
+  "author": "Dario Burneo",
+  "license": "ISC"
 }

@@ -24,7 +24,7 @@ services:
       - DB_HOST=database
       - DB_USER=root
       - DB_PASSWORD=mipassword
-      - DB_NAME=miapp
+      - DB_NAME=syb_database
     command: >
       bash -c "npm install && npm start"
     restart: always
@@ -35,7 +35,7 @@ services:
     image: mariadb:10.5
     environment:
       - MYSQL_ROOT_PASSWORD=mipassword
-      - MYSQL_DATABASE=miapp
+      - MYSQL_DATABASE=syb_database
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
       - mariadb_data:/var/lib/mysql
