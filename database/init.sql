@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS contactos (
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     mensaje TEXT NOT NULL,
-    info TINYINT(1) DEFAULT 0;
+    info TINYINT(1) DEFAULT 0
 );
 
 --Insert de prueba en contactos
