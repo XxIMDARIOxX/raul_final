@@ -52,7 +52,7 @@ app.post('/api/contact', (req, res) => {
 
   // Insertar los datos en la base de datos
   pool.query(
-    'INSERT INTO contactos (nombre, email, mensaje) VALUES (?, ?, ?, ?)',
+    'INSERT INTO contactos (nombre, email, mensaje) VALUES (?, ?, ?)',
     [name, email, message],
     (error, results) => {
       if (error) {
