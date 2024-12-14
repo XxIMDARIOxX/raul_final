@@ -40,10 +40,9 @@ CREATE TABLE IF NOT EXISTS contactos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    mensaje TEXT NOT NULL,
-    info TINYINT(1) DEFAULT 0
+    mensaje TEXT NOT NULL
 );
 
 --Insert de prueba en contactos
 INSERT INTO contactos (nombre, email, mensaje)
-VALUES ('Juan', 'juan@gmail.com', 'Hola, necesito ayuda con mi pedido.', 1);
+VALUES ('Juan', 'juan@gmail.com', 'Hola, necesito ayuda con mi pedido.');
