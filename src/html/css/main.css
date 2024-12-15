@@ -1660,15 +1660,25 @@ input, select, textarea {
 		body.is-preload #footer {
 			opacity: 0;
 		}
+
+.product {
+	text-align: center; /* Centra el contenido dentro del div del producto */
+	margin: 20px; /* Espaciado entre productos */
+}
 		
-		.product {
-			text-align: center; /* Centra el contenido dentro del div del producto */
-			margin: 20px; /* Espaciado entre productos */
-		}
-		
-		.product img {
-			width: 200px; /* Ancho fijo para todas las imágenes */
-			height: 200px; /* Alto fijo para todas las imágenes */
-			object-fit: cover; /* Mantiene la proporción de la imagen y recorta si es necesario */
-			border-radius: 8px; /* Bordes redondeados para un mejor aspecto */
-		}
+.product img {
+	width: 200px; /* Ancho fijo para todas las imágenes */
+	height: 200px; /* Alto fijo para todas las imágenes */
+	object-fit: cover; /* Mantiene la proporción de la imagen y recorta si es necesario */
+	border-radius: 8px; /* Bordes redondeados para un mejor aspecto */
+}
+.team-member {
+	text-align: center; /* Centra el contenido de cada miembro */
+	margin: 20px; /* Espaciado entre miembros */
+}
+			
+.team-member img {
+	width: 150px; /* Ancho fijo para las imágenes de los miembros */
+	height: 150px; /* Alto fijo para las imágenes de los miembros */
+	border-radius: 50%; /* Hace que las imágenes sean circulares */
+}

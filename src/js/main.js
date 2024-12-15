@@ -399,3 +399,16 @@
 					});
 
 })(jQuery);
+
+$(document).ready(function() {
+    $('.read-more').on('click', function(event) {
+        event.preventDefault();
+        var target = $(this).attr('href');
+        $('.recipe').hide(); // Oculta todas las recetas
+        $(target).show(); // Muestra la receta seleccionada
+    });
+
+    $('.close-recipe').on('click', function() {
+        $(this).closest('.recipe').hide(); // Cierra la receta
+    });
+});
