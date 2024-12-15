@@ -17,3 +17,7 @@ scrape_configs:
   - job_name: "web"
     static_configs:
       - targets: ["web:80"]
+      
+  - job_name: "cadvisor"
+    static_configs:
+      - targets: ["cadvisor:8080"]
