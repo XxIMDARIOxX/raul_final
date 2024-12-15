@@ -56,3 +56,6 @@ src/js/*.bak
 
 #EC2 key
 *.pem
+
+#PDF
+*.pdf
