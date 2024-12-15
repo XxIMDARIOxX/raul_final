@@ -1660,4 +1660,15 @@ input, select, textarea {
 		body.is-preload #footer {
 			opacity: 0;
 		}
-        
+		
+		.product {
+			text-align: center; /* Centra el contenido dentro del div del producto */
+			margin: 20px; /* Espaciado entre productos */
+		}
+		
+		.product img {
+			width: 200px; /* Ancho fijo para todas las imágenes */
+			height: 200px; /* Alto fijo para todas las imágenes */
+			object-fit: cover; /* Mantiene la proporción de la imagen y recorta si es necesario */
+			border-radius: 8px; /* Bordes redondeados para un mejor aspecto */
+		}
