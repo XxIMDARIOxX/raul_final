@@ -26,7 +26,7 @@ services:
       - DB_PASSWORD=mipassword
       - DB_NAME=syb_database
     command: >
-      bash -c "npm install && npm start"
+      bash -c "npm install && npm install prom-client && npm start"
     restart: always
     depends_on:
       - database
