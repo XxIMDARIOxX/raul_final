@@ -19,7 +19,7 @@ services:
     volumes:
       - ./backend:/app
     ports:
-      - "3000:3000"
+      - "3001:3001"
     environment:
       - DB_HOST=database
       - DB_USER=root
@@ -41,5 +41,43 @@ services:
       - mariadb_data:/var/lib/mysql
     restart: always
 
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command: 
+      - "--config.file=/etc/prometheus/prometheus.yml"
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    ports: 
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+  
+  mariadb-exporter:
+    image: prom/mysqld-exporter:latest
+    environment:
+      DATA_SOURCE_NAME: "my_user:my_password@(mariadb:3306)/"
+    depends_on:
+      - database
+  
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    command:
+      - -nginx.scrape-uri=http://nginx:80/stub_status
+    ports:
+      - "9113:9113"
+    depends_on:
+      - web
+
+
+
 volumes:
   mariadb_data:
+  grafana-data:
