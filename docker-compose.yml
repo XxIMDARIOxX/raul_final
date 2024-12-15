@@ -118,4 +118,5 @@ volumes:
   es_data:
 
 networks:
-elastic-network:
+  elastic-network:
+    driver: bridge
