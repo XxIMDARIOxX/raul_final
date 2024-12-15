@@ -18,33 +18,6 @@ const pool = mysql.createPool({
   database: 'syb_database',
 });
 
-// Ruta para obtener usuarios
-app.get('/api/users', async (req, res) => {
-  try {
-    const [rows] = await pool.query('SELECT * FROM usuarios');
-    res.json(rows);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Ruta para crear usuarios
-app.post('/api/users', async (req, res) => {
-  try {
-    const { nombre, email } = req.body;
-    const [result] = await pool.query(
-      'INSERT INTO usuarios (nombre, email) VALUES (?, ?)', 
-      [nombre, email]
-    );
-    res.status(201).json({ 
-      id: result.insertId, 
-      nombre, 
-      email 
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
 // Ruta para crear un contacto
 app.post('/api/contact', (req, res) => {
