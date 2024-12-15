@@ -14,6 +14,20 @@
 		$main = $('#main'),
 		$main_articles = $main.children('article');
 
+
+		$(document).ready(function() {
+			$('.read-more').on('click', function(event) {
+				event.preventDefault();
+				var target = $(this).attr('href');
+				$('.recipe').hide(); // Oculta todas las recetas
+				$(target).show(); // Muestra la receta seleccionada
+			});
+		
+			$('.close-recipe').on('click', function() {
+				$(this).closest('.recipe').hide(); // Cierra la receta
+			});
+		});
+
 	// Breakpoints.
 		breakpoints({
 			xlarge:   [ '1281px',  '1680px' ],
