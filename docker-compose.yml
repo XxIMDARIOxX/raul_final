@@ -12,8 +12,6 @@ services:
     depends_on:
       - backend
       - database
-    network:
-        - logging-network
 
   backend:
     image: node:14
@@ -32,8 +30,6 @@ services:
     restart: always
     depends_on:
       - database
-    network:
-        - logging-network
 
   database:
     image: mariadb:10.5
@@ -45,8 +41,6 @@ services:
       - mariadb_data:/var/lib/mysql
       - ./mariadb_logs:/var/lib/mysql
     restart: always
-    network:
-        - logging-network
 
   prometheus:
     image: prom/prometheus:latest
@@ -56,8 +50,6 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     command: 
       - "--config.file=/etc/prometheus/prometheus.yml"
-    network:
-        - logging-network
 
   grafana:
     image: grafana/grafana-oss:latest
@@ -68,8 +60,6 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - grafana-data:/var/lib/grafana
-    network:
-        - logging-network
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -81,8 +71,6 @@ services:
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-    network:
-      - logging-network
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
@@ -98,8 +86,6 @@ services:
       - "9200:9200"
     volumes:
       - es_data:/usr/share/elasticsearch/data
-    network:
-      - logging-network
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.10.2
@@ -111,8 +97,6 @@ services:
       - "5044:5044"
     depends_on:
       - elasticsearch
-    network:
-        - logging-network
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.10.2
@@ -122,15 +106,9 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
-    network:
-        - logging-network
 
 
 volumes:
   mariadb_data:
   grafana-data:
   es_data:
-
-networks:
-  logging-network:
-    driver: bridge
