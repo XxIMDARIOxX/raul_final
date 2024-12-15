@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const { redirect } = require('express/lib/response');
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -48,7 +48,7 @@ app.post('/api/users', async (req, res) => {
 
 // Ruta para crear un contacto
 app.post('/api/contact', (req, res) => {
-  const { name, email, message } = req.body;
+  const { name, email, message} = req.body;
 
   // Insertar los datos en la base de datos
   pool.query(
