@@ -2,7 +2,6 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const { redirect } = require('express/lib/response');
-const client = require("prom-client");
 
 const app = express();
 const port = 3001;
@@ -69,35 +68,6 @@ app.post('/api/contact', (req, res) => {
     }
   );
   res.redirect("/");
-});
-
-// Inicializar métricas de prom-client
-const collectDefaultMetrics = client.collectDefaultMetrics;
-collectDefaultMetrics(); // Recoge métricas predeterminadas del sistema
-
-// Definir un contador personalizado
-const requestCounter = new client.Counter({
-  name: 'http_requests_total',
-  help: 'Total de solicitudes HTTP',
-  labelNames: ['method', 'route', 'status'],
-});
-
-// Middleware para registrar métricas por solicitud
-app.use((req, res, next) => {
-  res.on('finish', () => {
-    requestCounter.labels(req.method, req.path, res.statusCode).inc();
-  });
-  next();
-});
-
-// Endpoint para Prometheus
-app.get('/metrics', async (req, res) => {
-  try {
-    res.set('Content-Type', client.register.contentType);
-    res.end(await client.register.metrics());
-  } catch (err) {
-    res.status(500).end(err);
-  }
 });
 
 app.listen(port, () => {

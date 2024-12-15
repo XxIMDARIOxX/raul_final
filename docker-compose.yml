@@ -26,7 +26,7 @@ services:
       - DB_PASSWORD=mipassword
       - DB_NAME=syb_database
     command: >
-      bash -c "npm install && npm install prom-client && npm start"
+      bash -c "npm install && npm start"
     restart: always
     depends_on:
       - database
@@ -39,6 +39,7 @@ services:
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
       - mariadb_data:/var/lib/mysql
+      - ./mariadb_logs:/var/lib/mysql
     restart: always
 
   prometheus:
@@ -59,36 +60,52 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - grafana-data:/var/lib/grafana
-  
-  mariadb-exporter:
-    image: prom/mysqld-exporter:latest
-    environment:
-      DATA_SOURCE_NAME: "my_user:my_password@(mariadb:3306)/"
-    depends_on:
-      - database
-  
-  nginx-exporter:
-    image: nginx/nginx-prometheus-exporter:latest
-    command:
-      - -nginx.scrape-uri=http://nginx:80/stub_status
-    ports:
-      - "9113:9113"
-    depends_on:
-      - web
 
   cadvisor:
       image: gcr.io/cadvisor/cadvisor:latest
       container_name: cadvisor
       ports:
-        - "8080:8080" # Puerto donde cAdvisor expone métricas
+        - "8080:8080"
       volumes:
         - /:/rootfs:ro
         - /var/run:/var/run:ro
         - /sys:/sys:ro
         - /var/lib/docker/:/var/lib/docker:ro
 
+  elasticsearch:
+      image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+      environment:
+        - discovery.type=single-node
+        - bootstrap.memory_lock=true
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+      ports:
+        - "9200:9200"
+      volumes:
+        - es_data:/usr/share/elasticsearch/data
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.10.2
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./nginx_logs:/nginx_logs
+      - ./mariadb_logs:/mariadb_logs
+    ports:
+      - "5044:5044"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.10.2
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+
 
 
 volumes:
   mariadb_data:
   grafana-data:
+  es_data:
