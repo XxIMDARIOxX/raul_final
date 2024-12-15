@@ -62,30 +62,35 @@ services:
       - grafana-data:/var/lib/grafana
 
   cadvisor:
-      image: gcr.io/cadvisor/cadvisor:latest
-      container_name: cadvisor
-      ports:
-        - "8080:8080"
-      volumes:
-        - /:/rootfs:ro
-        - /var/run:/var/run:ro
-        - /sys:/sys:ro
-        - /var/lib/docker/:/var/lib/docker:ro
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
 
   elasticsearch:
-      image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
-      environment:
-        - discovery.type=single-node
-        - bootstrap.memory_lock=true
-        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      ulimits:
-        memlock:
-          soft: -1
-          hard: -1
-      ports:
-        - "9200:9200"
-      volumes:
-        - es_data:/usr/share/elasticsearch/data
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enable=false
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - network.host=0.0.0.0
+      - http.port=9200
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - elastic-network
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.10.2
@@ -95,17 +100,26 @@ services:
       - ./mariadb_logs:/mariadb_logs
     ports:
       - "5044:5044"
+    depends_on:
+      - elasticsearch
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.10.2
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
     ports:
       - "5601:5601"
-
+    depends_on:
+      - elasticsearch
+    networks:
+      - elastic-network
 
 
 volumes:
   mariadb_data:
   grafana-data:
   es_data:
+
+networks:
+  elastic-network:
+    driver: bridge
