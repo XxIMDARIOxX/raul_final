@@ -77,7 +77,10 @@ services:
     environment:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
+      - xpack.security.enable=false
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - network.host=0.0.0.0
+      - http.port=9200
     ulimits:
       memlock:
         soft: -1
